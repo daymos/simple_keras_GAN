@@ -93,7 +93,7 @@ class GAN(object):
             random_index =  np.random.randint(0, len(X_train) - batch/2)
             legit_images = X_train[random_index : random_index + batch/2].reshape(batch/2, self.WIDTH, self.HEIGHT, self.CHANNELS) 
 
-            gen_noise = np.random.uniform(0, 1, (batch/2,100))
+            gen_noise = np.random.normal(0, 1, (batch/2,100))
             syntetic_images = self.G.predict(gen_noise)
 
             x_combined_batch = np.concatenate((legit_images, syntetic_images))
@@ -104,7 +104,7 @@ class GAN(object):
 
             # train generator
 
-            noise = np.random.uniform(0, 1, (batch,100))
+            noise = np.random.normal(0, 1, (batch,100))
             y_mislabled = np.ones((batch, 1))
 
             g_loss = self.stacked_G_D.train_on_batch(noise, y_mislabled)
@@ -117,7 +117,7 @@ class GAN(object):
 
     def plot_images(self, save2file=False,  samples=16, step=0):
         filename = "./images/mnist_%d.png" % step
-        noise = np.random.uniform(0, 1, (samples,100))
+        noise = np.random.normal(0, 1, (samples,100))
 
         images = self.G.predict(noise)
         
