@@ -1,4 +1,4 @@
-# simple_keras_GAN
+# simple implementation of Adersarial Neural Network (GAN) using keras
 Simple keras implementation of a generative adversarial neural network, as described in https://arxiv.org/abs/1406.2661
 
 # Medium article
