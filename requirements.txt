@@ -1,10 +1,10 @@
-absl-py==0.1.10
+absl-py>=0.1.10
 backports.functools-lru-cache==1.4
 backports.shutil-get-terminal-size==1.0.0
 backports.weakref==1.0.post1
 bleach==1.5.0
 cycler==0.10.0
-decorator==4.2.1
+decorator>=4.2.1
 enum34==1.1.6
 funcsigs==1.0.2
 futures==3.2.0

@@ -52,6 +52,9 @@ class GAN(object):
         model.add(Dense(1024))
         model.add(LeakyReLU(alpha=0.2))
         model.add(BatchNormalization(momentum=0.8))
+        model.add(Dense(2048))
+        model.add(LeakyReLU(alpha=0.2))
+        model.add(BatchNormalization(momentum=0.8))
         model.add(Dense(self.width  * self.height * self.channels, activation='tanh'))
         model.add(Reshape((self.width, self.height, self.channels)))
 
@@ -62,6 +65,8 @@ class GAN(object):
 
         model = Sequential()
         model.add(Flatten(input_shape=self.shape))
+        model.add(Dense((self.width * self.height * self.channels), input_shape=self.shape))
+        model.add(LeakyReLU(alpha=0.2))
         model.add(Dense((self.width * self.height * self.channels), input_shape=self.shape))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dense((self.width * self.height * self.channels)/2))
@@ -144,4 +149,4 @@ if __name__ == '__main__':
 
 
     gan = GAN()
-    gan.train(X_train)
+    gan.train(X_train, epochs=100000)
