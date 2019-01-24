@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """ Simple implementation of Generative Adversarial Neural Network """
-
+import os
 import numpy as np
 
 from IPython.core.debugger import Tracer
@@ -100,7 +100,7 @@ class GAN(object):
 
             # train generator
 
-            noise = np.random.normal(0, 1, (batch, 10git@github.com:daymos/simple_keras_GAN.git0))
+            noise = np.random.normal(0, 1, (batch, 100))
             y_mislabled = np.ones((batch, 1))
 
             g_loss = self.stacked_generator_discriminator.train_on_batch(noise, y_mislabled)
@@ -113,6 +113,8 @@ class GAN(object):
 
     def plot_images(self, save2file=False, samples=16, step=0):
         ''' Plot and generated images '''
+        if not os.path.exists("./images"):
+            os.makedirs("./images")
         filename = "./images/mnist_%d.png" % step
         noise = np.random.normal(0, 1, (samples, 100))
 
