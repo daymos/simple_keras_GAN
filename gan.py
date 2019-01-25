@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """ Simple implementation of Generative Adversarial Neural Network """
-
+import os
 import numpy as np
 
 from IPython.core.debugger import Tracer
@@ -64,7 +64,7 @@ class GAN(object):
         model.add(Flatten(input_shape=self.shape))
         model.add(Dense((self.width * self.height * self.channels), input_shape=self.shape))
         model.add(LeakyReLU(alpha=0.2))
-        model.add(Dense((self.width * self.height * self.channels)/2))
+        model.add(Dense(np.int64((self.width * self.height * self.channels)/2)))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dense(1, activation='sigmoid'))
         model.summary()
@@ -86,14 +86,14 @@ class GAN(object):
         for cnt in range(epochs):
 
             ## train discriminator
-            random_index = np.random.randint(0, len(X_train) - batch/2)
-            legit_images = X_train[random_index : random_index + batch/2].reshape(batch/2, self.width, self.height, self.channels)
+            random_index = np.random.randint(0, len(X_train) - np.int64(batch/2))
+            legit_images = X_train[random_index : random_index + np.int64(batch/2)].reshape(np.int64(batch/2), self.width, self.height, self.channels)
 
-            gen_noise = np.random.normal(0, 1, (batch/2, 100))
+            gen_noise = np.random.normal(0, 1, (np.int64(batch/2), 100))
             syntetic_images = self.G.predict(gen_noise)
 
             x_combined_batch = np.concatenate((legit_images, syntetic_images))
-            y_combined_batch = np.concatenate((np.ones((batch/2, 1)), np.zeros((batch/2, 1))))
+            y_combined_batch = np.concatenate((np.ones((np.int64(batch/2), 1)), np.zeros((np.int64(batch/2), 1))))
 
             d_loss = self.D.train_on_batch(x_combined_batch, y_combined_batch)
 
@@ -113,6 +113,8 @@ class GAN(object):
 
     def plot_images(self, save2file=False, samples=16, step=0):
         ''' Plot and generated images '''
+        if not os.path.exists("./images"):
+            os.makedirs("./images")
         filename = "./images/mnist_%d.png" % step
         noise = np.random.normal(0, 1, (samples, 100))
 
